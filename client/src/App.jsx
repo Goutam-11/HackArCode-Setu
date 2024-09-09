@@ -45,7 +45,6 @@ function App() {
                         <Route path='/counsellor-login' element={<CounsellorForm />} />
                         <Route path="/counsellor-profile" element={<CounsellorProfile />} />
                         <Route path="/all-counsellors" element={<AllCounsellors />} />
-                 
                     </Routes>
                 </div>
                 <Footer />
