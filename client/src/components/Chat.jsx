@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 
-const CounselorHome = () => {
+const Chat = () => {
   const [name, setName] = useState("");
   const [recipientName, setRecipientName] = useState("");
   const [message, setMessage] = useState("");
@@ -46,12 +46,10 @@ const CounselorHome = () => {
   }, [socket]);
 
   return (
-    <div className="flex flex-col items-center justify-center p-6 bg-transparent ">
-      <div className="w-[100vw] ml-10 mr-10 flex flex-col items bg-transparent rounded-lg shadow-md p-4">
-        <h2 className="text-xl font-semibold text-center text-white">
-          Counselor Chat
-        </h2>
-        
+    <div className="flex flex-col items-center p-6 bg-transparent min-h-screen">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-4">
+        <h2 className="text-xl font-semibold text-center">Student Chat</h2>
+
         {!registered ? (
           <div>
             <input
@@ -77,7 +75,7 @@ const CounselorHome = () => {
               placeholder="Recipient's name"
               className="p-2 border border-gray-300 rounded-lg mt-2"
             />
-            <div className="mt-4 bg-transparent p-3 rounded-lg h-64 overflow-y-auto">
+            <div className="mt-4 bg-gray-50 p-3 rounded-lg h-64 overflow-y-auto">
               {messages.map((msg, index) => (
                 <div
                   key={index}
@@ -124,4 +122,4 @@ const CounselorHome = () => {
   );
 };
 
-export default CounselorHome;
+export default Chat;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchAllCounsellors } from '../apiClient';
 
+
 const AllCounsellors = () => {
     const [counsellors, setCounsellors] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -65,6 +66,7 @@ const AllCounsellors = () => {
                         <p><strong>Email:</strong> {counsellor.email}</p>
                         <p><strong>Bio:</strong> {counsellor.bio}</p>
                         <p><strong>Type:</strong> {counsellor.type}</p>
+                      
                     </div>
                 ))}
             </div>

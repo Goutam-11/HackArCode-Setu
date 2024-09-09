@@ -9,6 +9,7 @@ import useStore from './store/useStore';
 import AllCounsellors from './pages/AllCounsellors';
 import ErrorBoundary from './ErrorBoundary';
 import Footer from './components/Footer';
+import Chat from './components/Chat';
 
 
 
@@ -26,6 +27,7 @@ function App() {
                         <Route path='/counsellor-login' element={<CounsellorForm />} />
                         <Route path="/counsellor-profile" element={<CounsellorProfile />} />
                         <Route path="/all-counsellors" element={<AllCounsellors />} />
+                 
                     </Routes>
                 </div>
                 <Footer />

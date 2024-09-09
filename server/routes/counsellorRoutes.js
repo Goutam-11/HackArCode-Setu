@@ -38,4 +38,5 @@ router.get('/counsellor', authenticateToken, getCounsellorData);
 // Get all counsellors
 router.get('/counsellors', getAllCounsellors);
 
+
 module.exports = router;
