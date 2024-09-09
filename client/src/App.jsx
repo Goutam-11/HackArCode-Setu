@@ -9,11 +9,28 @@ import useStore from './store/useStore';
 import AllCounsellors from './pages/AllCounsellors';
 import ErrorBoundary from './ErrorBoundary';
 import Footer from './components/Footer';
-
-
-
+import { useAuth, useUser } from '@clerk/clerk-react';
+import { loginStudent } from './apiClient';
 
 function App() {
+    const { isSignedIn } = useAuth()
+    const { user } = useUser();
+ 
+    useEffect(() => {
+        if (isSignedIn) {
+            const email = user.primaryEmailAddress?.emailAddress; 
+            const walletAddress = user.primaryWeb3Wallet?.web3Wallet;
+
+            // Use the loginStudent function
+            loginStudent(email, walletAddress)
+                .then(data => {
+                    console.log('DID:', data.did); // You can store this DID in state if needed
+                })
+                .catch(err => {
+                    console.error('Failed to create/retrieve DID', err);
+                });
+        }
+    }, [isSignedIn, user]);
 
     return (
         <ErrorBoundary>

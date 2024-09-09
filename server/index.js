@@ -13,9 +13,12 @@ app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
 
 const counsellorRoutes = require('./routes/counsellorRoutes');
+const studentRoutes = require('./routes/studentRoutes'); // Add student routes
 
 
 app.use('/api', counsellorRoutes);
+app.use('/api', studentRoutes); 
+
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URL).then(() => { 

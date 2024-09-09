@@ -1,21 +1,25 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+
 import { SignedOut, SignInButton } from '@clerk/clerk-react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+    
+   
     const [userType, setUserType] = useState('student');
     const navigate = useNavigate();
+
+    
 
     const handleLogin = () => {
         if (userType === 'counsellor') {
             navigate('/counsellor-login');
         }
-        // No need for manual handling for student as Clerk handles MetaMask login
     };
 
     return (
-        <div className='text-white flex gap-2 '>
-            <div className=''>
+        <div className='text-white flex gap-2'>
+            <div>
                 <label className='mr-2'>Login as:</label>
                 <select 
                     value={userType} 

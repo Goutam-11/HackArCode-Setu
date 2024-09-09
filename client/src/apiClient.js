@@ -1,6 +1,29 @@
 const API_BASE_URL = 'http://localhost:4000/api';
 
-// Register Counsellor
+export const loginStudent = async (email, walletAddress) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/student-login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, walletAddress }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Failed to create/retrieve DID', error);
+        throw error;
+    }
+};
+
+
+
 export const registerCounsellor = async (counsellorData) => {
     try {
         const response = await fetch(`${API_BASE_URL}/register-counsellor`, {
