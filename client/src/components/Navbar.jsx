@@ -57,6 +57,12 @@ const Navbar = () => {
                     )}
 
                     {isSignedIn && (
+                        <Link to='/student-profile' className="text-white hover:text-gray-300">
+                            Student Profile
+                        </Link>
+                    )}
+
+                    {isSignedIn && (
                         <div className='text-white'>
                             <UserButton />
                         </div>

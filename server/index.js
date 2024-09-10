@@ -51,12 +51,18 @@ io.on('connection', (socket) => {
   socket.on('chat message', ({ recipientName, message }) => {
     const recipientSocketId = users[recipientName];
     if (recipientSocketId) {
-      io.to(recipientSocketId).emit('chat message', message);
+      // Emit the full message object to the recipient
+      io.to(recipientSocketId).emit('chat message', {
+        sender: message.sender,
+        content: message.content,
+        timestamp: message.timestamp
+      });
       console.log(`Message from ${message.sender} to ${recipientName}: ${message.content}`);
     } else {
       console.log(`Recipient with name ${recipientName} not found`);
     }
   });
+  
 
   socket.on('disconnect', () => {
     // Remove user from the tracking object

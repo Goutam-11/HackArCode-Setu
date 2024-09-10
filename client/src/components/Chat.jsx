@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 
 const Chat = () => {
+
   const [name, setName] = useState("");
   const [recipientName, setRecipientName] = useState("");
   const [message, setMessage] = useState("");
@@ -32,6 +33,11 @@ const Chat = () => {
         content: message,
         timestamp: new Date(),
       };
+
+      // Update the local messages state
+      setMessages((prevMessages) => [...prevMessages, msg]);
+
+      // Emit the message to the server
       socket.emit("chat message", { recipientName, message: msg });
       setMessage("");
     }
@@ -44,6 +50,7 @@ const Chat = () => {
       });
     }
   }, [socket]);
+
 
   return (
     <div className="flex flex-col items-center p-6 bg-transparent min-h-screen">
@@ -79,11 +86,10 @@ const Chat = () => {
               {messages.map((msg, index) => (
                 <div
                   key={index}
-                  className={`p-2 my-2 rounded-lg ${
-                    msg.sender === name
-                      ? "bg-blue-100 text-blue-900 self-end"
-                      : "bg-green-100 text-green-900"
-                  }`}
+                  className={`p-2 my-2 rounded-lg ${msg.sender === name
+                      ? "bg-green-100 text-green-900 text-right"
+                      : "bg-blue-100 text-blue-900 self-end text-left"
+                    }`}
                 >
                   <strong>{msg.sender}</strong>: {msg.content}
                   <br />

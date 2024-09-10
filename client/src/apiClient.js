@@ -107,3 +107,24 @@ export const fetchAllCounsellors = async () =>{
         throw error;
     }
 }
+
+export const fetchStudent = async (email, walletAddress) => {
+    try {
+        const queryParams = new URLSearchParams({ email, walletAddress }).toString();
+        const response = await fetch(`${API_BASE_URL}/students?${queryParams}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch student data');
+        }
+
+        return response.json();
+    } catch (error) {
+        console.error('Error fetching student data:', error);
+        throw error;
+    }
+};

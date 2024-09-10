@@ -48,4 +48,28 @@ const handleStudentLogin = async (req, res) => {
     }
 };
 
-module.exports = { handleStudentLogin };
+const fetchStudents = async (req, res) => {
+    try {
+        const { email, walletAddress } = req.query; // Getting query params from the request
+
+        if (!email && !walletAddress) {
+            return res.status(400).json({ error: 'Either email or walletAddress is required' });
+        }
+
+        // Find students by email or walletAddress
+        const student = await Student.findOne({
+            $or: [{ email: email || null }, { walletAddress: walletAddress || null }],
+        });
+
+        if (student.length === 0) {
+            return res.status(404).json({ message: 'No students found' });
+        }
+
+        return res.status(200).json({ student });
+    } catch (error) {
+        console.error('Error fetching students:', error);
+        return res.status(500).json({ error: 'Failed to fetch students' });
+    }
+};
+
+module.exports = { handleStudentLogin, fetchStudents };

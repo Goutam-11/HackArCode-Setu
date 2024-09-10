@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
+import useStore from '../store/useStore'
 
 const CounselorHome = () => {
   const [name, setName] = useState("");
@@ -8,7 +9,9 @@ const CounselorHome = () => {
   const [messages, setMessages] = useState([]);
   const [socket, setSocket] = useState(null);
   const [registered, setRegistered] = useState(false);
+  const { counsellorData } = useStore();
 
+  console.log(counsellorData.email);
   useEffect(() => {
     const newSocket = io("http://localhost:4000");
     setSocket(newSocket);
@@ -32,6 +35,11 @@ const CounselorHome = () => {
         content: message,
         timestamp: new Date(),
       };
+      
+      // Update the local messages state
+      setMessages((prevMessages) => [...prevMessages, msg]);
+      
+      // Emit the message to the server
       socket.emit("chat message", { recipientName, message: msg });
       setMessage("");
     }
@@ -83,8 +91,8 @@ const CounselorHome = () => {
                   key={index}
                   className={`p-2 my-2 rounded-lg ${
                     msg.sender === name
-                      ? "bg-blue-100 text-blue-900 self-end"
-                      : "bg-green-100 text-green-900"
+                      ? "bg-green-100 text-green-900 text-right"
+                      : "bg-blue-100 text-blue-900 self-end text-left"
                   }`}
                 >
                   <strong>{msg.sender}</strong>: {msg.content}

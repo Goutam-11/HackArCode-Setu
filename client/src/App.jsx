@@ -11,12 +11,18 @@ import ErrorBoundary from './ErrorBoundary';
 import Footer from './components/Footer';
 import Chat from './components/Chat';
 import { useAuth, useUser } from '@clerk/clerk-react';
+import { loginStudent } from './apiClient';
+import StudentProfile from './pages/StudentProfile';
+
 
 
 
 function App() {
     const { isSignedIn } = useAuth()
     const { user } = useUser();
+    const setStudentData = useStore((state) => state.setStudentData);
+    const {studentData} = useStore();
+    console.log(JSON.stringify(studentData));
  
     useEffect(() => {
         if (isSignedIn) {
@@ -26,7 +32,11 @@ function App() {
             // Use the loginStudent function
             loginStudent(email, walletAddress)
                 .then(data => {
-                    console.log('DID:', data.did); // You can store this DID in state if needed
+                    setStudentData({
+                        email: email,
+                        walletAddress: walletAddress,
+                        did: data.did // Assuming the DID is a relevant piece of student data
+                    }); // You can store this DID in state if needed
                 })
                 .catch(err => {
                     console.error('Failed to create/retrieve DID', err);
@@ -45,6 +55,7 @@ function App() {
                         <Route path='/counsellor-login' element={<CounsellorForm />} />
                         <Route path="/counsellor-profile" element={<CounsellorProfile />} />
                         <Route path="/all-counsellors" element={<AllCounsellors />} />
+                        <Route path='/student-profile' element={<StudentProfile />} />
                     </Routes>
                 </div>
                 <Footer />
