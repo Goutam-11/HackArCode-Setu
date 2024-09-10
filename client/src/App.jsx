@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
-import Login from './pages/Login';
 import Navbar from './components/Navbar';
 import CounsellorForm from './pages/CounsellorForm';
 import CounsellorProfile from './pages/CounsellorProfile';
@@ -9,12 +8,9 @@ import useStore from './store/useStore';
 import AllCounsellors from './pages/AllCounsellors';
 import ErrorBoundary from './ErrorBoundary';
 import Footer from './components/Footer';
-import Chat from './components/Chat';
 import { useAuth, useUser } from '@clerk/clerk-react';
 import { loginStudent } from './apiClient';
 import StudentProfile from './pages/StudentProfile';
-
-
 
 
 function App() {
@@ -23,7 +19,7 @@ function App() {
     const setStudentData = useStore((state) => state.setStudentData);
     const {studentData} = useStore();
     console.log(JSON.stringify(studentData));
- 
+
     useEffect(() => {
         if (isSignedIn) {
             const email = user.primaryEmailAddress?.emailAddress; 

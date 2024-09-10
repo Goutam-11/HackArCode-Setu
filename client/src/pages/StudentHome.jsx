@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import useStore from '../store/useStore';
 import { useNavigate } from 'react-router-dom';
 import sHome from '../assets/sHome.jpg'
-import Chat from '../components/Chat';
 
 import { useAuth } from '@clerk/clerk-react'
 const StudentHome = () => {
@@ -63,7 +61,6 @@ const StudentHome = () => {
                         >
                             See Counsellors
                         </button>
-                        <Chat/>
                     </div>
 
                     {/* Right Section */}

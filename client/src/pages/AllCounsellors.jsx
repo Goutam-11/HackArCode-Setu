@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { fetchAllCounsellors } from '../apiClient';
+import Chat from '../components/Chat';
 
 
 const AllCounsellors = () => {
@@ -66,6 +67,8 @@ const AllCounsellors = () => {
                         <p><strong>Email:</strong> {counsellor.email}</p>
                         <p><strong>Bio:</strong> {counsellor.bio}</p>
                         <p><strong>Type:</strong> {counsellor.type}</p>
+                        <Chat recipientName={counsellor.email}/>
+
                       
                     </div>
                 ))}

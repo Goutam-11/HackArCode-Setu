@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
-import useStore from '../store/useStore'
+import useStore from "../store/useStore.js"
 
 const CounselorHome = () => {
-  const [name, setName] = useState("");
-  const [recipientName, setRecipientName] = useState("");
+  const { counsellorData, studentData } = useStore();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [socket, setSocket] = useState(null);
   const [registered, setRegistered] = useState(false);
-  const { counsellorData } = useStore();
+  const name = counsellorData.email;
+  const recipientName ="did:email:87f39ab60b3f87e0fb96e35d945dd11f4ba0d22846e83f155804fb42081526e6"
 
   console.log(counsellorData.email);
   useEffect(() => {
@@ -21,12 +21,12 @@ const CounselorHome = () => {
     };
   }, []);
 
-  const handleRegister = () => {
-    if (name) {
+  useEffect(() => {
+    if (socket) {
       socket.emit("register", name);
       setRegistered(true);
     }
-  };
+  }, [socket, name]);
 
   const handleSendMessage = () => {
     if (message.trim() && recipientName) {
@@ -60,23 +60,7 @@ const CounselorHome = () => {
           Counselor Chat
         </h2>
         
-        {!registered ? (
-          <div>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your name"
-              className="p-2 border border-gray-300 rounded-lg"
-            />
-            <button
-              onClick={handleRegister}
-              className="p-2 bg-blue-600 text-white rounded-lg mt-2"
-            >
-              Register
-            </button>
-          </div>
-        ) : (
+        
           <div>
             <input
               type="text"
@@ -126,7 +110,6 @@ const CounselorHome = () => {
               </button>
             </form>
           </div>
-        )}
       </div>
     </div>
   );

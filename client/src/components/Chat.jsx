@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
+import useStore from "../store/useStore"
 
-const Chat = () => {
-
-  const [name, setName] = useState("");
-  const [recipientName, setRecipientName] = useState("");
+const Chat = ({recipientName}) => {
+  const { counsellorData, studentData } = useStore();
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [socket, setSocket] = useState(null);
   const [registered, setRegistered] = useState(false);
+  const name = studentData.did
+  
 
   useEffect(() => {
     const newSocket = io("http://localhost:4000");
@@ -19,12 +20,12 @@ const Chat = () => {
     };
   }, []);
 
-  const handleRegister = () => {
-    if (name) {
+  useEffect(() => {
+    if (socket) {
       socket.emit("register", name);
       setRegistered(true);
     }
-  };
+  }, [socket, name]);
 
   const handleSendMessage = () => {
     if (message.trim() && recipientName) {
@@ -53,27 +54,11 @@ const Chat = () => {
 
 
   return (
-    <div className="flex flex-col items-center p-6 bg-transparent min-h-screen">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-4">
+    <div className="flex flex-col items-center p-6 bg-transparent min-h-screen text-black">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-md p-4 ">
         <h2 className="text-xl font-semibold text-center">Student Chat</h2>
+        <h3 className="overflow-auto">{studentData.did}</h3>
 
-        {!registered ? (
-          <div>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter your name"
-              className="p-2 border border-gray-300 rounded-lg"
-            />
-            <button
-              onClick={handleRegister}
-              className="p-2 bg-blue-600 text-white rounded-lg mt-2"
-            >
-              Register
-            </button>
-          </div>
-        ) : (
           <div>
             <input
               type="text"
@@ -122,7 +107,6 @@ const Chat = () => {
               </button>
             </form>
           </div>
-        )}
       </div>
     </div>
   );
